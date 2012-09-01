@@ -64,6 +64,7 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
                             var response = Ext.decode(o.response.responseText);
                             Ext.data.StoreManager.lookup('telephoneStore').loadData(response.datas);
                         },
+                        
                         url: '../phpcode/filereader.php',
                         waitMsg: 'Leyendo mensaje (s)...'
                     });
@@ -73,24 +74,33 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
         name: 'txtfile',
         widht: 400
     }
-    //    , 
-    //    {
-    //        xtype: 'button',
-    //        handler: function() {
-    //            if (!isStoreEmpty()) {
-    //                Ext.Ajax.request({
-    //                    method: 'GET',
-    //                    params: {
-    //                        a: getStoreContent()
-    //                    },
-    //                    url: '../phpcode/excelexporter.php'
-    //                });
-    //            } else
-    //                Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para la exportaci&oacuten');
-    //        },
-    //        icon: '../img/excel-16x16.png',
-    //        text: 'Exportar a Excel'
-    //    }
+    , 
+    {
+        xtype: 'button',
+        handler: function() {
+            if (!isStoreEmpty()) {
+                this.up('form').getForm().submit({
+                success: function(fp, o) {
+                            var response = Ext.decode(o.response.responseText);
+                            console.log('response is '+response);
+                        },
+                        params: {
+                        a: getStoreContent()
+                        },
+                url: '../phpcode/excelexporter.php'})
+                /*Ext.Ajax.request({
+                    method: 'GET',
+                    params: {
+                        a: getStoreContent()
+                    },
+                    
+                });*/
+            } else
+                Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para la exportaci&oacuten');
+        },
+        icon: '../img/excel-16x16.png',
+        text: 'Exportar a Excel'
+    }
     ]
 });
 
